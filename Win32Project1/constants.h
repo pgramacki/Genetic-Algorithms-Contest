@@ -30,6 +30,8 @@
 #define DEF_CROSSING_CHANCE 50
 #define DEF_MUTATION_CHANCE 20
 
+#define CUT_FREQUENCY 20
+
 #define X_VAR "x"
 #define Y_VAR "y"
 

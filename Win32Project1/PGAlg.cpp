@@ -18,6 +18,7 @@ CPGAlg::CPGAlg()
 bool CPGAlg::bInitialize(CString  sTest)
 {
 	srand(time(0));
+	i_iterations = 0;
 
 	v_data = c_file_manager.vReadData(sTest);
 
@@ -29,6 +30,11 @@ bool CPGAlg::bInitialize(CString  sTest)
 
 void CPGAlg::vRunIteration()
 {
+	i_iterations++;
+
+	if (i_iterations % CUT_FREQUENCY == 0)
+		v_cut();
+
 	cout << "iteracja... " << endl;
 
 	v_selection();
@@ -149,6 +155,12 @@ void CPGAlg::v_mutation()
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 		if (rand() % 100 < d_mutation_chance)
 			(*pv_population)[ii]->vMutate();
+}
+
+void CPGAlg::v_cut()
+{
+	for (size_t ii = 0; ii < pv_population->size(); ii++)
+		(*pv_population)[ii]->vCutTree(MAX_TREE_DEPTH);
 }
 
 size_t CPGAlg::i_find_best()

@@ -27,6 +27,7 @@ private:
 	string s_source_file;
 	string s_destination_file;
 	int i_population_size;
+	int i_iterations;
 	double d_crossing_chance;
 	double d_mutation_chance;
 	int i_number_of_variables;
@@ -39,6 +40,7 @@ private:
 	void v_selection();
 	void v_crossing();
 	void v_mutation();
+	void v_cut();
 
 	size_t i_find_best();
 };//class  CPGAlg
