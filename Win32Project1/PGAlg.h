@@ -17,6 +17,8 @@ using namespace std;
 class  CPGAlg
 {
 public:
+	CPGAlg();
+
 	bool bInitialize(CString  sTest);
 	void vRunIteration();
 	CString  sGetCurrentBestTree();

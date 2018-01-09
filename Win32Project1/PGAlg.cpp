@@ -3,10 +3,8 @@
 
 
 
-bool CPGAlg::bInitialize(CString  sTest)
+CPGAlg::CPGAlg()
 {
-	srand(time(0));
-
 	s_source_file = DEF_SOURCE_FILE;
 	s_destination_file = DEF_RESULT_FILE;
 	i_population_size = DEF_POPULATION_SIZE;
@@ -15,6 +13,11 @@ bool CPGAlg::bInitialize(CString  sTest)
 	i_number_of_variables = DEFAULT_NUM_OF_VARIABLES;
 
 	pv_population = new vector<CTree *>(i_population_size);
+}
+
+bool CPGAlg::bInitialize(CString  sTest)
+{
+	srand(time(0));
 
 	v_data = c_file_manager.vReadData(sTest);
 

@@ -30,6 +30,9 @@
 #define DEF_CROSSING_CHANCE 50
 #define DEF_MUTATION_CHANCE 20
 
+#define X_VAR "x"
+#define Y_VAR "y"
+
 // operations
 #define S_ADD "+"
 #define S_SUB "-"

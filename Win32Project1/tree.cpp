@@ -52,8 +52,11 @@ void CTree::vCreateRandom()
 
 	pc_root->vCreateRandom(rand() % MAX_TREE_DEPTH);
 
-	for (int ii = 0; ii < i_num_of_vars; ii++)
-		v_variables.push_back("x" + to_string(ii));
+	/*for (int ii = 0; ii < i_num_of_vars; ii++)
+		v_variables.push_back("x" + to_string(ii));*/
+
+	v_variables.push_back(X_VAR);
+	v_variables.push_back(Y_VAR);
 
 	b_evaluated = false;
 }
@@ -648,7 +651,7 @@ void CNode::v_random_node(int i_current_depth, int i_max_depth)
 
 string CNode::s_random_variable()
 {
-	return "x" + to_string(rand() % pc_tree->i_num_of_vars);
+	return rand() % 2 == 0 ? X_VAR : Y_VAR;
 }
 
 
