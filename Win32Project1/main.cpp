@@ -11,7 +11,7 @@ using namespace std;
 using namespace TimeCounters;
 
 
-#define  MAX_TIME  30
+#define  MAX_TIME  60
 
 void main(int iArgCount, char **ppcArgValues)
 {
@@ -23,7 +23,7 @@ void main(int iArgCount, char **ppcArgValues)
 	{
 		CPGAlg  c_test;
 
-		c_test.bInitialize("data.txt");
+		c_test.bInitialize("rosenbrock.txt");
 
 		c_time_counter.vSetStartNow();
 

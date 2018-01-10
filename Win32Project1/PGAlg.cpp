@@ -32,8 +32,8 @@ void CPGAlg::vRunIteration()
 {
 	i_iterations++;
 
-	if (i_iterations % CUT_FREQUENCY == 0)
-		v_cut();
+	//if (i_iterations % CUT_FREQUENCY == 0)
+		//v_cut();
 
 	cout << "iteracja... " << endl;
 
