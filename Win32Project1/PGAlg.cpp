@@ -32,8 +32,8 @@ void CPGAlg::vRunIteration()
 {
 	i_iterations++;
 
-	//if (i_iterations % CUT_FREQUENCY == 0)
-		//v_cut();
+	if (i_iterations % CUT_FREQUENCY == 0)
+		v_cut();
 
 	cout << "iteracja... " << endl;
 
@@ -68,6 +68,8 @@ void CPGAlg::v_evaluation()
 {
 	//cout << "eval" << endl;
 
+	size_t st_current_best = 0;
+
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 	{
 		if ((*pv_population)[ii]->iCalculateAccuracy(v_data) != NO_ERROR)
@@ -77,7 +79,12 @@ void CPGAlg::v_evaluation()
 			(*pv_population)[ii]->vCreateRandom();
 			ii--;
 		}
+
+		if ((*pv_population)[ii]->dGetAccuracy() < (*pv_population)[st_current_best]->dGetAccuracy())
+			st_current_best = ii;
 	}
+
+	d_current_best_accuracy = (*pv_population)[st_current_best]->dGetAccuracy();
 }
 
 void CPGAlg::v_selection()
@@ -98,8 +105,7 @@ void CPGAlg::v_selection()
 		{
 			i_second = rand() % i_population_size;
 			//cout << "i_second = " << i_second << endl;
-		}
-		while (i_first == i_second);		// i_second changes
+		} while (i_first == i_second);		// i_second changes
 
 		if ((*pv_population)[i_first]->dGetAccuracy() < (*pv_population)[i_second]->dGetAccuracy())
 			(*pv_parents)[ii] = new CTree(*(*pv_population)[i_first]);
@@ -160,7 +166,10 @@ void CPGAlg::v_mutation()
 void CPGAlg::v_cut()
 {
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
-		(*pv_population)[ii]->vCutTree(MAX_TREE_DEPTH);
+		if ((*pv_population)[ii]->dGetAccuracy() / d_current_best_accuracy > CUT_CONDITION)
+			(*pv_population)[ii]->vCutTree(CUT_DEPTH);
+
+	v_evaluation();
 }
 
 size_t CPGAlg::i_find_best()

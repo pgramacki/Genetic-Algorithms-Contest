@@ -34,6 +34,7 @@ private:
 	vector<CTree *> *pv_population;
 	vector<CRecord *> v_data;
 	CFileReader c_file_manager;
+	double d_current_best_accuracy;
 
 	void v_initialization();
 	void v_evaluation();

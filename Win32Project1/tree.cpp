@@ -280,7 +280,10 @@ void CNode::vCut(int iCurrentLevel, int iMaxLevel)
 {
 	if (iCurrentLevel == iMaxLevel)
 		if (!bIsLeaf())
+		{
 			v_random_leaf();
+			pc_tree->b_evaluated = false;
+		}
 		else;
 	else
 		for (size_t ii = 0; ii < v_children.size(); ii++)
@@ -548,7 +551,7 @@ string CNode::s_to_string()
 	string s_result;
 
 	if (i_field_type == CONSTANT)
-		s_result = to_string(d_constant_val) + S_SPACE;
+		s_result = to_string((int)d_constant_val) + S_SPACE;
 	else if (i_field_type == VARIABLE)
 		s_result = s_var_name + S_SPACE;
 	else

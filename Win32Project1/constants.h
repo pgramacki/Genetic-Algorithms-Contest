@@ -25,12 +25,14 @@
 #define DEF_SOURCE_FILE "data.txt"
 #define DEF_RESULT_FILE "result.txt"
 
-#define DEF_POPULATION_SIZE 1000
+#define DEF_POPULATION_SIZE 500
 #define DEF_ITERATIONS_NUM 50
 #define DEF_CROSSING_CHANCE 50
 #define DEF_MUTATION_CHANCE 20
 
 #define CUT_FREQUENCY 20
+#define CUT_DEPTH 5
+#define CUT_CONDITION 10
 
 #define X_VAR "x"
 #define Y_VAR "y"
