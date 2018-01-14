@@ -13,6 +13,23 @@ CPGAlg::CPGAlg()
 	i_number_of_variables = DEFAULT_NUM_OF_VARIABLES;
 
 	pv_population = new vector<CTree *>(i_population_size);
+	i_iterations_without_effect = 0;
+	b_doubled = false;
+	pc_best = NULL;
+}
+
+CPGAlg::~CPGAlg()
+{
+	if (pc_best != NULL)
+		delete pc_best;
+
+	if (pv_population != NULL)
+	{
+		for (size_t ii = 0; ii < pv_population->size(); ii++)
+			delete pv_population->at(ii);
+		delete pv_population;
+	}
+
 }
 
 bool CPGAlg::bInitialize(CString  sTest)
@@ -35,7 +52,17 @@ void CPGAlg::vRunIteration()
 	if (i_iterations % CUT_FREQUENCY == 0)
 		v_cut();
 
-	cout << "iteracja... " << endl;
+	//if (i_iterations % DOUBLE_FREQUENCY == 0)
+	//	v_double_population();
+
+	//if (b_doubled && i_iterations_with_doubled_population == DOUBLED_POPUALTION_TIME)
+	//{
+	//	i_population_size /= 2;
+	//	b_doubled = false;
+	//}
+	//else i_iterations_with_doubled_population++;
+
+	cout << "iteracja... " << i_iterations << endl;
 
 	v_selection();
 	v_crossing();
@@ -69,6 +96,7 @@ void CPGAlg::v_evaluation()
 	//cout << "eval" << endl;
 
 	size_t st_current_best = 0;
+	//double d_previous_best = d_current_best_accuracy;
 
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 	{
@@ -83,8 +111,12 @@ void CPGAlg::v_evaluation()
 		if ((*pv_population)[ii]->dGetAccuracy() < (*pv_population)[st_current_best]->dGetAccuracy())
 			st_current_best = ii;
 	}
-
+	
 	d_current_best_accuracy = (*pv_population)[st_current_best]->dGetAccuracy();
+
+	//if (d_current_best_accuracy >= d_previous_best)
+	//	i_iterations_without_effect++;
+	//else i_iterations_without_effect = 0;
 }
 
 void CPGAlg::v_selection()
@@ -159,7 +191,7 @@ void CPGAlg::v_crossing()
 void CPGAlg::v_mutation()
 {
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
-		if (rand() % 100 < d_mutation_chance)
+		if ((rand() % 100) < d_mutation_chance)
 			(*pv_population)[ii]->vMutate();
 }
 
@@ -170,6 +202,24 @@ void CPGAlg::v_cut()
 			(*pv_population)[ii]->vCutTree(CUT_DEPTH);
 
 	v_evaluation();
+}
+
+void CPGAlg::v_double_population()
+{
+	cout << "xxxx" << endl;
+
+	i_population_size *= 2;
+	CTree *pc_tmp;
+
+	for (size_t ii = pv_population->size(); ii < i_population_size; ii++) 
+	{
+		pc_tmp = new CTree();
+		pc_tmp->vCreateRandom();
+		pv_population->push_back(pc_tmp);
+	}
+
+	i_iterations_with_doubled_population = 0;
+	b_doubled = true;
 }
 
 size_t CPGAlg::i_find_best()
