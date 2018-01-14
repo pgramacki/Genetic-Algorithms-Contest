@@ -72,15 +72,27 @@ void CPGAlg::vRunIteration()
 
 CString  CPGAlg::sGetCurrentBestTree()
 {
+	cout << "getbest" << endl;
+
 	size_t st_best = i_find_best();
-	string s_result = (*pv_population)[st_best]->sPrintTree();
-	cout << s_result << endl << (*pv_population)[st_best]->dGetAccuracy() << endl;
+	CTree *pc_iter_best = (*pv_population)[st_best];
+
+	if (pc_best == NULL)
+		pc_best = new CTree(*pc_iter_best);
+	else if (pc_best->dGetAccuracy() > pc_iter_best->dGetAccuracy())
+	{
+		delete pc_best;
+		pc_best = new CTree(*pc_iter_best);
+	}
+
+	string s_result = pc_best->sPrintTree();
+	cout << s_result << endl << pc_best->dGetAccuracy() << endl;
 	return (s_result.c_str());
 }
 
 void CPGAlg::v_initialization()
 {
-	//cout << "init" << endl;
+	cout << "init";
 
 	CTree *pc_tmp;
 
@@ -93,9 +105,9 @@ void CPGAlg::v_initialization()
 }
 void CPGAlg::v_evaluation()
 {
-	//cout << "eval" << endl;
+	cout << "eval";
 
-	size_t st_current_best = 0;
+	//size_t st_current_best = 0;
 	//double d_previous_best = d_current_best_accuracy;
 
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
@@ -108,11 +120,11 @@ void CPGAlg::v_evaluation()
 			ii--;
 		}
 
-		if ((*pv_population)[ii]->dGetAccuracy() < (*pv_population)[st_current_best]->dGetAccuracy())
-			st_current_best = ii;
+		//if ((*pv_population)[ii]->dGetAccuracy() < (*pv_population)[st_current_best]->dGetAccuracy())
+			//st_current_best = ii;
 	}
-	
-	d_current_best_accuracy = (*pv_population)[st_current_best]->dGetAccuracy();
+
+	//d_current_best_accuracy = (*pv_population)[st_current_best]->dGetAccuracy();
 
 	//if (d_current_best_accuracy >= d_previous_best)
 	//	i_iterations_without_effect++;
@@ -121,22 +133,25 @@ void CPGAlg::v_evaluation()
 
 void CPGAlg::v_selection()
 {
-	//cout << "select" << endl;
+	cout << "select";
 
 	vector<CTree *> *pv_parents = new vector<CTree *>(i_population_size);
 	int i_first;
 	int i_second;
+	int ii = 0;
 
-	(*pv_parents)[0] = new CTree(*(*pv_population)[i_find_best()]);
-
-	for (int ii = 1; ii < i_population_size; ii++)
+	if (pc_best != NULL)
 	{
-		i_first = rand() % i_population_size;	// STH WRONG HERE!!!
-		//cout << "i_first = " << i_first << endl;
+		(*pv_parents)[0] = new CTree(*pc_best);
+		ii++;
+	}
+
+	for (; ii < i_population_size; ii++)
+	{
+		i_first = rand() % i_population_size;
 		do
 		{
 			i_second = rand() % i_population_size;
-			//cout << "i_second = " << i_second << endl;
 		} while (i_first == i_second);		// i_second changes
 
 		if ((*pv_population)[i_first]->dGetAccuracy() < (*pv_population)[i_second]->dGetAccuracy())
@@ -153,7 +168,7 @@ void CPGAlg::v_selection()
 
 void CPGAlg::v_crossing()
 {
-	//cout << "cross" << endl;
+	cout << "cross";
 
 	vector<CTree *> *pv_children = new vector<CTree *>(i_population_size);
 	int i_first;
@@ -164,11 +179,9 @@ void CPGAlg::v_crossing()
 	for (int ii = 0; ii < i_population_size; ii += 2)
 	{
 		i_first = rand() % i_population_size;
-		//cout << "i_first = " << i_first << endl;
 		do
 		{
 			i_second = rand() % i_population_size;
-			//cout << "i_second = " << i_second << endl;
 		} while (i_first == i_second);
 
 		pc_first = new CTree(*(*pv_population)[i_first]);
@@ -190,6 +203,8 @@ void CPGAlg::v_crossing()
 
 void CPGAlg::v_mutation()
 {
+	cout << "mutate";
+
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 		if ((rand() % 100) < d_mutation_chance)
 			(*pv_population)[ii]->vMutate();
@@ -197,8 +212,10 @@ void CPGAlg::v_mutation()
 
 void CPGAlg::v_cut()
 {
+	cout << "cut";
+
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
-		if ((*pv_population)[ii]->dGetAccuracy() / d_current_best_accuracy > CUT_CONDITION)
+		//if ((*pv_population)[ii]->dGetAccuracy() / d_current_best_accuracy > CUT_CONDITION)
 			(*pv_population)[ii]->vCutTree(CUT_DEPTH);
 
 	v_evaluation();
@@ -211,7 +228,7 @@ void CPGAlg::v_double_population()
 	i_population_size *= 2;
 	CTree *pc_tmp;
 
-	for (size_t ii = pv_population->size(); ii < i_population_size; ii++) 
+	for (size_t ii = pv_population->size(); ii < i_population_size; ii++)
 	{
 		pc_tmp = new CTree();
 		pc_tmp->vCreateRandom();

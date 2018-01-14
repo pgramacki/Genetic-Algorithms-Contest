@@ -11,7 +11,7 @@ using namespace std;
 using namespace TimeCounters;
 
 
-#define  MAX_TIME  10*60
+#define  MAX_TIME  5*60
 
 void main(int iArgCount, char **ppcArgValues)
 {

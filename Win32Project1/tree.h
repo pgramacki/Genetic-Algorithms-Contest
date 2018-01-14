@@ -1,7 +1,6 @@
 #pragma once
 #include "constants.h"
 #include "data.h"
-//#include <vld.h>
 
 #include <iostream>
 #include <vector>
@@ -18,7 +17,6 @@ class CTree
 	friend class CNode;
 
 public:
-	//CTree();
 	CTree(int iNumOfVariables = DEFAULT_NUM_OF_VARIABLES);
 	CTree(CTree &pcOther);
 	~CTree();

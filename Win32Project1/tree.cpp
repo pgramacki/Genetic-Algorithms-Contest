@@ -3,13 +3,6 @@
 #include <iostream>
 using namespace std;
 
-//CTree::CTree()
-//{
-//	i_error_code = NO_ERROR;
-//	i_num_of_vars = DEFAULT_NUM_OF_VARIABLES;
-//	pc_root = NULL;
-//}
-
 CTree::CTree(int iNumOfVariables /*= DEFAULT_NUM_OF_VARIABLES*/)
 {
 	i_error_code = NO_ERROR;
@@ -17,10 +10,6 @@ CTree::CTree(int iNumOfVariables /*= DEFAULT_NUM_OF_VARIABLES*/)
 	pc_root = NULL;
 	b_evaluated = false;
 	d_accuracy = VERY_BIG_NUMBER;
-
-	// dodaæ do wyliczania wart do pliku
-	//for (int ii = 0; ii < i_num_of_vars; ii++)
-	//	v_variables.push_back("x" + to_string(ii));
 }
 
 CTree::CTree(CTree & pcOther)
@@ -48,22 +37,18 @@ void CTree::vCreateRandom()
 	if (pc_root != NULL)
 		delete pc_root;
 
+	v_variables.push_back(X_VAR);
+	v_variables.push_back(Y_VAR);
+
 	pc_root = new CNode(this);
 
 	pc_root->vCreateRandom(rand() % MAX_TREE_DEPTH);
-
-	/*for (int ii = 0; ii < i_num_of_vars; ii++)
-		v_variables.push_back("x" + to_string(ii));*/
-
-	v_variables.push_back(X_VAR);
-	v_variables.push_back(Y_VAR);
 
 	b_evaluated = false;
 }
 
 void CTree::vMutate()
 {
-	//cout << "mutuje..." << endl;
 
 	if (!pc_root->bIsLeaf())
 		pc_root->vMutate();
