@@ -48,7 +48,7 @@ void CPGAlg::vRunIteration()
 	if (i_iterations % CUT_FREQUENCY == 0)
 		v_cut();
 
-	cout << "iteracja... " << i_iterations << endl;
+	//cout << "iteracja... " << i_iterations << endl;
 
 	v_selection();
 	v_crossing();
@@ -70,7 +70,7 @@ CString  CPGAlg::sGetCurrentBestTree()
 	}
 
 	string s_result = pc_best->sPrintTree();
-	cout << s_result << endl << pc_best->dGetAccuracy() << endl;
+	//cout << s_result << endl << pc_best->dGetAccuracy() << endl;
 	return (s_result.c_str());
 }
 
