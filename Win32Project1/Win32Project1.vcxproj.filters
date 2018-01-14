@@ -61,5 +61,8 @@
     <Text Include="rosenbrock.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="rastrigin.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -26,8 +26,6 @@ public:
 
 private:
 	CTree *pc_best;
-	string s_source_file;
-	string s_destination_file;
 	int i_population_size;
 	int i_iterations;
 	double d_crossing_chance;
@@ -36,10 +34,7 @@ private:
 	vector<CTree *> *pv_population;
 	vector<CRecord *> v_data;
 	CFileReader c_file_manager;
-	double d_current_best_accuracy;
-	int i_iterations_without_effect;
-	int i_iterations_with_doubled_population;
-	bool b_doubled;
+
 
 	void v_initialization();
 	void v_evaluation();
@@ -47,7 +42,6 @@ private:
 	void v_crossing();
 	void v_mutation();
 	void v_cut();
-	void v_double_population();
 
 	size_t i_find_best();
 };//class  CPGAlg

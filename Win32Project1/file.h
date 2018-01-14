@@ -16,8 +16,8 @@ public:
 	CFileReader();
 	~CFileReader();
 
-	vector<CRecord *> vReadData(CString sFileName = DEF_SOURCE_FILE, int iNumOfVariables = DEFAULT_NUM_OF_VARIABLES);
-	void vSaveToFile(string sText, string sFileName = DEF_RESULT_FILE);
+	vector<CRecord *> vReadData(CString sFileName, int iNumOfVariables = DEFAULT_NUM_OF_VARIABLES);
+	void vSaveToFile(string sText, string sFileName);
 
 private:
 	//string s_file_name;

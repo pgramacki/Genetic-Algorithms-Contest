@@ -22,19 +22,12 @@
 
 #define VERY_BIG_NUMBER 999999999
 
-#define DEF_SOURCE_FILE "data.txt"
-#define DEF_RESULT_FILE "result.txt"
-
 #define DEF_POPULATION_SIZE 500
-#define DEF_ITERATIONS_NUM 50
 #define DEF_CROSSING_CHANCE 50
 #define DEF_MUTATION_CHANCE 20
 
 #define CUT_FREQUENCY 20
 #define CUT_DEPTH 10
-#define CUT_CONDITION 10
-#define DOUBLE_FREQUENCY 100
-#define DOUBLED_POPUALTION_TIME 20
 
 #define X_VAR "x"
 #define Y_VAR "y"
@@ -84,32 +77,5 @@
 #define WRONG_ARGUMENTS 5
 #define NO_TREE_CREATED 6
 #define NEGATIVE_DEPTH 7
-
-// errors' messages
-#define WRONG_EXPRESSION_MESSAGE " <- expression corrected due to mistake"
-#define WRONG_VALUES_MESSAGE "wrong values"
-#define DIVIDE_BY_ZERO_MESSAGE "algebraic error - division by 0"
-#define WRONG_INSTRUCTION_MESSAGE "wrong instruction"
-#define WRONG_ARGUMENTS_MESSAGE "wrong arguments"
-#define NO_TREE_CREATED_MESSAGE "no tree created"
-
-// interface
-#define S_ENTER "enter"
-#define S_VARS "vars"
-#define S_PRINT "print"
-#define S_COMPUTE "comp"
-#define S_JOIN "join"
-#define S_QUIT "quit"
-#define S_PRINT_LEAF "printLeaf"
-
-#define I_ENTER 11
-#define I_VARS 12
-#define I_PRINT 13
-#define I_COMPUTE 14
-#define I_JOIN 15
-#define I_QUIT 16
-#define I_PRINT_LEAF 17
-
-#define CONST_TO_STR(x) #x
 
 #endif //CONSTANTS_H

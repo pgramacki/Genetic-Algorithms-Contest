@@ -11,7 +11,7 @@ CFileReader::~CFileReader()
 }
 
 // ew dodaæ obs³ugê b³êdnego formatu pliku
-vector<CRecord *> CFileReader::vReadData(CString sFileName /*= DEF_SOURCE_FILE*/, int iNumOfVariables /*= DEFAULT_NUM_OF_VARIABLES*/)
+vector<CRecord *> CFileReader::vReadData(CString sFileName, int iNumOfVariables /*= DEFAULT_NUM_OF_VARIABLES*/)
 {
 	vector<CRecord *> v_result;
 	fstream fs_file;
@@ -59,7 +59,7 @@ vector<CRecord *> CFileReader::vReadData(CString sFileName /*= DEF_SOURCE_FILE*/
 	return v_result;
 }
 
-void CFileReader::vSaveToFile(string sText, string sFileName /*= DEF_RESULT_FILE*/)
+void CFileReader::vSaveToFile(string sText, string sFileName)
 {
 	fstream f_file;
 	f_file.open(sFileName, ios::out);

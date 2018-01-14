@@ -5,16 +5,12 @@
 
 CPGAlg::CPGAlg()
 {
-	s_source_file = DEF_SOURCE_FILE;
-	s_destination_file = DEF_RESULT_FILE;
 	i_population_size = DEF_POPULATION_SIZE;
 	d_crossing_chance = DEF_CROSSING_CHANCE;
 	d_mutation_chance = DEF_MUTATION_CHANCE;
 	i_number_of_variables = DEFAULT_NUM_OF_VARIABLES;
 
 	pv_population = new vector<CTree *>(i_population_size);
-	i_iterations_without_effect = 0;
-	b_doubled = false;
 	pc_best = NULL;
 }
 
@@ -52,16 +48,6 @@ void CPGAlg::vRunIteration()
 	if (i_iterations % CUT_FREQUENCY == 0)
 		v_cut();
 
-	//if (i_iterations % DOUBLE_FREQUENCY == 0)
-	//	v_double_population();
-
-	//if (b_doubled && i_iterations_with_doubled_population == DOUBLED_POPUALTION_TIME)
-	//{
-	//	i_population_size /= 2;
-	//	b_doubled = false;
-	//}
-	//else i_iterations_with_doubled_population++;
-
 	cout << "iteracja... " << i_iterations << endl;
 
 	v_selection();
@@ -72,8 +58,6 @@ void CPGAlg::vRunIteration()
 
 CString  CPGAlg::sGetCurrentBestTree()
 {
-	cout << "getbest" << endl;
-
 	size_t st_best = i_find_best();
 	CTree *pc_iter_best = (*pv_population)[st_best];
 
@@ -92,8 +76,6 @@ CString  CPGAlg::sGetCurrentBestTree()
 
 void CPGAlg::v_initialization()
 {
-	cout << "init";
-
 	CTree *pc_tmp;
 
 	for (int ii = 0; ii < i_population_size; ii++)
@@ -105,11 +87,6 @@ void CPGAlg::v_initialization()
 }
 void CPGAlg::v_evaluation()
 {
-	cout << "eval";
-
-	//size_t st_current_best = 0;
-	//double d_previous_best = d_current_best_accuracy;
-
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 	{
 		if ((*pv_population)[ii]->iCalculateAccuracy(v_data) != NO_ERROR)
@@ -119,21 +96,11 @@ void CPGAlg::v_evaluation()
 			(*pv_population)[ii]->vCreateRandom();
 			ii--;
 		}
-
-		//if ((*pv_population)[ii]->dGetAccuracy() < (*pv_population)[st_current_best]->dGetAccuracy())
-			//st_current_best = ii;
 	}
-
-	//d_current_best_accuracy = (*pv_population)[st_current_best]->dGetAccuracy();
-
-	//if (d_current_best_accuracy >= d_previous_best)
-	//	i_iterations_without_effect++;
-	//else i_iterations_without_effect = 0;
 }
 
 void CPGAlg::v_selection()
 {
-	cout << "select";
 
 	vector<CTree *> *pv_parents = new vector<CTree *>(i_population_size);
 	int i_first;
@@ -168,7 +135,6 @@ void CPGAlg::v_selection()
 
 void CPGAlg::v_crossing()
 {
-	cout << "cross";
 
 	vector<CTree *> *pv_children = new vector<CTree *>(i_population_size);
 	int i_first;
@@ -203,7 +169,6 @@ void CPGAlg::v_crossing()
 
 void CPGAlg::v_mutation()
 {
-	cout << "mutate";
 
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
 		if ((rand() % 100) < d_mutation_chance)
@@ -212,31 +177,10 @@ void CPGAlg::v_mutation()
 
 void CPGAlg::v_cut()
 {
-	cout << "cut";
-
 	for (size_t ii = 0; ii < pv_population->size(); ii++)
-		//if ((*pv_population)[ii]->dGetAccuracy() / d_current_best_accuracy > CUT_CONDITION)
-			(*pv_population)[ii]->vCutTree(CUT_DEPTH);
+		(*pv_population)[ii]->vCutTree(CUT_DEPTH);
 
 	v_evaluation();
-}
-
-void CPGAlg::v_double_population()
-{
-	cout << "xxxx" << endl;
-
-	i_population_size *= 2;
-	CTree *pc_tmp;
-
-	for (size_t ii = pv_population->size(); ii < i_population_size; ii++)
-	{
-		pc_tmp = new CTree();
-		pc_tmp->vCreateRandom();
-		pv_population->push_back(pc_tmp);
-	}
-
-	i_iterations_with_doubled_population = 0;
-	b_doubled = true;
 }
 
 size_t CPGAlg::i_find_best()
