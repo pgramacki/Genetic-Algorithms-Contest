@@ -10,29 +10,25 @@ CPGAlg::CPGAlg()
 	d_mutation_chance = DEF_MUTATION_CHANCE;
 	i_number_of_variables = DEFAULT_NUM_OF_VARIABLES;
 
-	pv_population = new vector<CTree *>(i_population_size);
+	pv_population = NULL;
 	pc_best = NULL;
+
+	srand(time(0));
 }
 
 CPGAlg::~CPGAlg()
 {
-	if (pc_best != NULL)
-		delete pc_best;
-
-	if (pv_population != NULL)
-	{
-		for (size_t ii = 0; ii < pv_population->size(); ii++)
-			delete pv_population->at(ii);
-		delete pv_population;
-	}
-
+	v_clear();
 }
 
 bool CPGAlg::bInitialize(CString  sTest)
 {
-	srand(time(0));
 	i_iterations = 0;
 
+	v_clear();
+
+	pc_best = NULL;
+	pv_population = new vector <CTree *>();
 	v_data = c_file_manager.vReadData(sTest);
 
 	v_initialization();
@@ -48,7 +44,7 @@ void CPGAlg::vRunIteration()
 	if (i_iterations % CUT_FREQUENCY == 0)
 		v_cut();
 
-	//cout << "iteracja... " << i_iterations << endl;
+	cout << "iteracja... " << i_iterations << endl;
 
 	v_selection();
 	v_crossing();
@@ -70,7 +66,7 @@ CString  CPGAlg::sGetCurrentBestTree()
 	}
 
 	string s_result = pc_best->sPrintTree();
-	//cout << s_result << endl << pc_best->dGetAccuracy() << endl;
+	cout << s_result << endl << pc_best->dGetAccuracy() << endl;
 	return (s_result.c_str());
 }
 
@@ -82,7 +78,7 @@ void CPGAlg::v_initialization()
 	{
 		pc_tmp = new CTree(i_number_of_variables);
 		pc_tmp->vCreateRandom();
-		(*pv_population)[ii] = pc_tmp;
+		pv_population->push_back(pc_tmp);
 	}
 }
 void CPGAlg::v_evaluation()
@@ -192,4 +188,20 @@ size_t CPGAlg::i_find_best()
 			i_best_tree = ii;
 
 	return i_best_tree;
+}
+
+void CPGAlg::v_clear()
+{
+	if (pc_best != NULL)
+		delete pc_best;
+
+	if (pv_population != NULL)
+	{
+		for (size_t ii = 0; ii < pv_population->size(); ii++)
+			delete pv_population->at(ii);
+		delete pv_population;
+	}
+
+	for (size_t ii = 0; ii < v_data.size(); ii++)
+		delete v_data[ii];
 }

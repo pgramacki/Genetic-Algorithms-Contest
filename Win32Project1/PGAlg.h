@@ -44,4 +44,5 @@ private:
 	void v_cut();
 
 	size_t i_find_best();
+	void v_clear();
 };//class  CPGAlg
